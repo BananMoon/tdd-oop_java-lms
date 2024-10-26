@@ -88,6 +88,11 @@ public class NsUser extends BaseEntity {
         return false;
     }
 
+    public boolean isSameUser(NsUser target) {
+        return !this.equals(target);
+    }
+
+
     private static class GuestNsUser extends NsUser {
         @Override
         public boolean isGuestUser() {
