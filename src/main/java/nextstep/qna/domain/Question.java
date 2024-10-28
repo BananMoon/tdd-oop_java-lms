@@ -19,17 +19,12 @@ public class Question extends BaseEntity {
 
     private boolean deleted = false;
 
-
-    public Question() {
-        super();
+    public Question(NsUser writer, String title, String contents, LocalDateTime createdAt) {
+        this(0L, writer, title, contents, createdAt);
     }
 
-    public Question(NsUser writer, String title, String contents) {
-        this(0L, writer, title, contents);
-    }
-
-    public Question(Long id, NsUser writer, String title, String contents) {
-        super(id);
+    public Question(Long id, NsUser writer, String title, String contents, LocalDateTime createdAt) {
+        super(id, createdAt);
         this.writer = writer;
         this.title = title;
         this.contents = contents;
@@ -58,14 +53,19 @@ public class Question extends BaseEntity {
         return "Question [id=" + getId() + ", title=" + title + ", contents=" + contents + ", writer=" + writer + "]";
     }
 
-    public void delete(NsUser loginUser) throws CannotDeleteException {
+    public List<DeleteHistory> delete(NsUser loginUser, LocalDateTime deletedAt) throws CannotDeleteException {
         this.validateWriter(loginUser);
+        this.deleted = true;
+        this.updatedAt = deletedAt;
 
+        List<DeleteHistory> deleteHistories = new ArrayList<>();
+
+        deleteHistories.add(this.toDeleteHistory(deletedAt));
         if (this.hasAnswers()) {
-            this.answers.delete(loginUser);
+            deleteHistories.addAll(this.answers.delete(loginUser, deletedAt));
         }
 
-        this.deleted = true;
+        return deleteHistories;
     }
 
     private void validateWriter(NsUser loginUser) throws CannotDeleteException {
@@ -78,10 +78,7 @@ public class Question extends BaseEntity {
         return !this.answers.isEmpty();
     }
 
-    public List<DeleteHistory> toDeleteHistory() {
-        List<DeleteHistory> totalDeleteHistory = new ArrayList<>();
-        totalDeleteHistory.add(new DeleteHistory(ContentType.QUESTION, this.id, this.writer, LocalDateTime.now()));
-        totalDeleteHistory.addAll(answers.toDeleteHistories());
-        return totalDeleteHistory;
+    private DeleteHistory toDeleteHistory(LocalDateTime deletedAt) {
+        return new DeleteHistory(ContentType.QUESTION, this.id, this.writer, deletedAt);
     }
 }

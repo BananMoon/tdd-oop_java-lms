@@ -17,16 +17,12 @@ public class Answer extends BaseEntity {
 
     private boolean deleted = false;
 
-    public Answer() {
-        super();
+    public Answer(NsUser writer, Question question, String contents, LocalDateTime createdAt) {
+        this(null, writer, question, contents, createdAt);
     }
 
-    public Answer(NsUser writer, Question question, String contents) {
-        this(null, writer, question, contents);
-    }
-
-    public Answer(Long id, NsUser writer, Question question, String contents) {
-        super(id, LocalDateTime.now(), LocalDateTime.now());
+    public Answer(Long id, NsUser writer, Question question, String contents, LocalDateTime createdAt) {
+        super(id, createdAt);
         if (writer == null) {
             throw new UnAuthorizedException();
         }
@@ -62,9 +58,12 @@ public class Answer extends BaseEntity {
         return "Answer [id=" + getId() + ", writer=" + writer + ", contents=" + contents + "]";
     }
 
-    public void delete(NsUser loginUser) throws CannotDeleteException {
+    public DeleteHistory delete(NsUser loginUser, LocalDateTime deletedAt) throws CannotDeleteException {
         this.validateAnswer(loginUser);
         this.deleted = true;
+        this.updatedAt = deletedAt;
+
+        return this.toDeleteHistory();
     }
 
     private void validateAnswer(NsUser loginUser) throws CannotDeleteException {
@@ -73,7 +72,7 @@ public class Answer extends BaseEntity {
         }
     }
 
-    public DeleteHistory toDeleteHistory() {
+    private DeleteHistory toDeleteHistory() {
         return new DeleteHistory(ContentType.ANSWER, this.id, this.writer, LocalDateTime.now());
     }
 }

@@ -10,17 +10,19 @@ public abstract class BaseEntity {
     protected LocalDateTime updatedAt;
 
     protected BaseEntity() {
-        this(0L, LocalDateTime.now(), LocalDateTime.now());
     }
 
-    protected BaseEntity(Long id) {
-        this(id, LocalDateTime.now(), LocalDateTime.now());
+    protected BaseEntity(LocalDateTime createdAt) {
+        this(0L, createdAt);
+    }
+
+    protected BaseEntity(Long id, LocalDateTime createdAt) {
+        this(id, createdAt, null);
     }
 
     protected BaseEntity(Long id, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = updatedAt;
     }
-
 }
