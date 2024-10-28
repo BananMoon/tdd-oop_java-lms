@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class NsUser extends BaseEntity {
-    public static final GuestNsUser GUEST_USER = new GuestNsUser();
-
     private String userId;
 
     private String password;
