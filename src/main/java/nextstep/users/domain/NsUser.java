@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class NsUser extends BaseEntity {
-    private String userId;
+    protected String userId;
 
-    private String password;
+    protected String password;
 
-    private String name;
+    protected String name;
 
-    private String email;
+    protected String email;
 
     public NsUser() {
         super();
@@ -82,7 +82,7 @@ public class NsUser extends BaseEntity {
     }
 
     public boolean isSameUser(NsUser target) {
-        return !this.equals(target);
+        return this.equals(target);
     }
 
     private static class GuestNsUser extends NsUser {
@@ -102,5 +102,19 @@ public class NsUser extends BaseEntity {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NsUser nsUser = (NsUser) o;
+        return Objects.equals(userId, nsUser.userId) && Objects.equals(password, nsUser.password) && Objects.equals(name, nsUser.name) && Objects.equals(email, nsUser.email)
+                && Objects.equals(id, nsUser.id) && Objects.equals(createdAt, nsUser.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, password, name, email, createdAt);
     }
 }
