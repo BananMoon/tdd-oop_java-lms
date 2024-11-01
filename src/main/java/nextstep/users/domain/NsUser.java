@@ -23,6 +23,10 @@ public class NsUser extends BaseEntity {
         this(id, userId, password, name, email, LocalDateTime.now(), null);
     }
 
+    public NsUser(NsUser nsUser, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this(nsUser.id, nsUser.userId, nsUser.password, nsUser.name, nsUser.email, createdAt, updatedAt);
+    }
+
     public NsUser(Long id, String userId, String password, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.userId = userId;
@@ -35,25 +39,12 @@ public class NsUser extends BaseEntity {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-
     public void update(NsUser loginUser, NsUser target) {
-        if (!matchUserId(loginUser.getUserId())) {
+        if (!matchUserId(loginUser.userId)) {
             throw new UnAuthorizedException();
         }
 
-        if (!matchPassword(target.getPassword())) {
+        if (!matchPassword(target.password)) {
             throw new UnAuthorizedException();
         }
 
@@ -62,11 +53,15 @@ public class NsUser extends BaseEntity {
     }
 
     public boolean matchUser(NsUser target) {
-        return matchUserId(target.getUserId());
+        return matchUserId(target.userId);
     }
 
     private boolean matchUserId(String userId) {
         return this.userId.equals(userId);
+    }
+
+    public boolean matchId(Long id) {
+        return Objects.equals(this.id, id);
     }
 
     public boolean matchPassword(String targetPassword) {
@@ -89,7 +84,6 @@ public class NsUser extends BaseEntity {
     public boolean isSameUser(NsUser target) {
         return !this.equals(target);
     }
-
 
     private static class GuestNsUser extends NsUser {
         @Override
