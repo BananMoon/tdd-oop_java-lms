@@ -25,7 +25,7 @@ public class SessionTest {
         LocalDateTime createdAt = LocalDateTime.now();
         NsUser moon = NsUserTest.generateNsUserTestFixture(0L, "moon", createdAt);
         NsStudent studentMoon = new NsStudent(moon, createdAt);
-        Session session = generateSessionTestFixture(0L, SessionFeeStatus.FREE, new ArrayList<>());
+        Session session = generateFreeSessionTestFixture(0L, new ArrayList<>());
 
         session.registerSession(moon, createdAt);
 
@@ -40,7 +40,7 @@ public class SessionTest {
         LocalDateTime createdAt = LocalDateTime.now();
         NsUser moon = NsUserTest.generateNsUserTestFixture(0L, "moon", createdAt);
         NsStudent studentMoon = new NsStudent(moon, createdAt);
-        Session session = generateSessionTestFixture(0L, SessionFeeStatus.FREE, new ArrayList<>());
+        PaidSession session = generatePaidSessionTestFixture(0L, new ArrayList<>());
         Payment payment = new Payment("TEST_PAYMENT_ID", 0L, 0L, 150000L);
 
         session.registerPaidSession(moon, payment, createdAt);
@@ -55,7 +55,7 @@ public class SessionTest {
     void register_PAID_Session_failed_maxStudents() {
         LocalDateTime createdAt = LocalDateTime.now();
         NsUser moon = new NsUser(0L, "moon", "12345", "moonyoonji", "moon@a.com", createdAt, null);
-        Session session = generateSessionTestFixture(0L, SessionFeeStatus.PAID, List.of(new NsStudent(moon, createdAt)));
+        PaidSession session = generatePaidSessionTestFixture(0L, List.of(new NsStudent(moon, createdAt)));
         NsUser newUser = new NsUser(1L, "sun", "5678", "sunyoonji", "sun@a.com", createdAt, null);
         Payment payment = new Payment("PAYMENT_TEST", 0L, 1L, 150000L);
 
@@ -68,7 +68,7 @@ public class SessionTest {
     @DisplayName("유료 강의 수강신청 등록 시 로그인한 사용자와 결제한 고객 정보가 일치해야 한다.")
     @Test
     void register_PAID_Session_failed_user_not_matching() {
-        Session session = generateSessionTestFixture(0L, SessionFeeStatus.PAID, new ArrayList<>());
+        PaidSession session = generatePaidSessionTestFixture(0L, new ArrayList<>());
         LocalDateTime createdAt = LocalDateTime.now();
         NsUser moon = new NsUser(0L, "moon", "12345", "moonyoonji", "moon@a.com", createdAt, null);
         Payment given = new Payment("PAYMENT_TEST", 0L, 1L, 150000L);
@@ -78,12 +78,20 @@ public class SessionTest {
                 .hasMessage("로그인한 사용자와 결제한 고객 정보가 일치하지 않습니다.");
     }
 
-    public static Session generateSessionTestFixture(Long id, SessionFeeStatus feeStatus, List<NsStudent> students) {
+    public static PaidSession generatePaidSessionTestFixture(Long id, List<NsStudent> students) {
         Course course = new Course();
         Image image = new Image();
-        return new Session(course, students, id, "TEST_SESSION_TITLE", 150000, image, 1, feeStatus,
+        return new PaidSession(course, students, id, "TEST_SESSION_TITLE", 150000, image, 1,
                 SessionStatus.RECRUITING, LocalDate.of(2024, 10, 31),
                 LocalDate.of(2024, 11, 30),
+                LocalDateTime.now(), null);
+    }
+
+    public static FreeSession generateFreeSessionTestFixture(Long id, List<NsStudent> students) {
+        Course course = new Course();
+        Image image = new Image();
+        return new FreeSession(course, students, id, "TEST_SESSION_TITLE", image, SessionStatus.RECRUITING,
+                LocalDate.of(2024, 10, 31), LocalDate.of(2024, 11, 30),
                 LocalDateTime.now(), null);
     }
 }
