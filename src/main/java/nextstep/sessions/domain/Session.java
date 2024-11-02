@@ -20,8 +20,8 @@ public abstract class Session extends BaseEntity {
 
     protected List<NsStudent> students;
 
-    protected Session(Course course, List<NsStudent> students, Long id, String title, Image coverImage, SessionFeeStatus feeStatus,
-                   SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    protected Session(Long id, Course course, List<NsStudent> students, String title, Image coverImage, SessionFeeStatus feeStatus,
+                      SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.course = course;
         this.students = students;
