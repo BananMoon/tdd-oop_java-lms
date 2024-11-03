@@ -41,7 +41,7 @@ class SessionTest {
         PaidSession session = SessionTestFixture.paidSessionBuilder().fee(150000).build();
         Payment payment = new Payment("TEST_PAYMENT_ID", 0L, 0L, 150000L);
 
-        session.registerPaidSession(moon, payment, createdAt);
+        session.registerSession(moon, payment, createdAt);
 
         assertThat(session)
                 .extracting("students", as(InstanceOfAssertFactories.LIST))
@@ -60,7 +60,7 @@ class SessionTest {
         NsUser newUser = new NsUser(1L, "sun", "5678", "sunyoonji", "sun@a.com", createdAt, null);
         Payment payment = new Payment("PAYMENT_TEST", 0L, 1L, 150000L);
 
-        assertThatThrownBy(() -> session.registerPaidSession(newUser, payment, createdAt))
+        assertThatThrownBy(() -> session.registerSession(newUser, payment, createdAt))
                 .isInstanceOf(CannotRegisterException.class)
                 .hasMessage("유료 강의는 강의 최대 수강 인원을 초과할 수 없습니다.");
     }
@@ -74,7 +74,7 @@ class SessionTest {
         NsUser moon = new NsUserTestFixture().id(0L).createdAt(createdAt).build();
         Payment given = new Payment("PAYMENT_TEST", 0L, 1L, 150000L);
 
-        assertThatThrownBy(() -> session.registerPaidSession(moon, given, createdAt))
+        assertThatThrownBy(() -> session.registerSession(moon, given, createdAt))
                 .isInstanceOf(CannotRegisterException.class)
                 .hasMessage("로그인한 사용자와 결제한 고객 정보가 일치하지 않습니다.");
     }

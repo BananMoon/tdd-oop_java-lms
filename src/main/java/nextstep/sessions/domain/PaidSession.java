@@ -14,14 +14,13 @@ public class PaidSession extends Session {
     protected Integer fee;
     protected Integer maxStudent;
 
-
     public PaidSession(Long id, Course course, List<NsStudent> students, String title, Integer fee, Image coverImage, Integer maxStudent, SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, course, students, title, coverImage, SessionFeeStatus.PAID, sessionStatus, startDate, endDate, createdAt, updatedAt);
         this.fee = fee;
         this.maxStudent = maxStudent;
     }
 
-    public void registerPaidSession(NsUser loginUser, Payment payment, LocalDateTime createdAt) {
+    public void registerSession(NsUser loginUser, Payment payment, LocalDateTime createdAt) {
         this.validateUser(loginUser, payment.getNsUserId());
         this.validatePaidSession(payment);
 

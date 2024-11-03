@@ -33,7 +33,7 @@ public abstract class Session extends BaseEntity {
         this.endDate = endDate;
     }
 
-    protected void registerSession(NsUser loginUser, LocalDateTime createdAt) {
+    public void registerSession(NsUser loginUser, LocalDateTime createdAt) {
         this.validateSession();
 
         NsStudent student = new NsStudent(loginUser, createdAt);
