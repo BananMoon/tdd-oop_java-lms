@@ -11,12 +11,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class PaidSession extends Session {
-    protected Integer fee;
     protected Integer maxStudent;
 
     public PaidSession(Long id, Course course, List<NsStudent> students, String title, Integer fee, Image coverImage, Integer maxStudent, SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, course, students, title, coverImage, SessionFeeStatus.PAID, sessionStatus, startDate, endDate, createdAt, updatedAt);
-        this.fee = fee;
+        super(id, course, students, title, coverImage, SessionFeeStatus.PAID, fee, sessionStatus, startDate, endDate, createdAt, updatedAt);
         this.maxStudent = maxStudent;
     }
 

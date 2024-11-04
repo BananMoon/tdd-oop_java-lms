@@ -14,6 +14,7 @@ public abstract class Session extends BaseEntity {
     protected SessionFeeStatus feeStatus;
     protected String title;
     protected Image coverImage;
+    protected Integer fee;
     protected LocalDate startDate;
     protected LocalDate endDate;
     protected SessionStatus sessionStatus;
@@ -21,12 +22,14 @@ public abstract class Session extends BaseEntity {
     protected List<NsStudent> students;
 
     protected Session(Long id, Course course, List<NsStudent> students, String title, Image coverImage, SessionFeeStatus feeStatus,
-                      SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+                      Integer fee, SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate,
+                      LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.course = course;
         this.students = students;
         this.title = title;
         this.coverImage = coverImage;
+        this.fee = fee;
         this.feeStatus = feeStatus;
         this.sessionStatus = sessionStatus;
         this.startDate = startDate;
