@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FreeSession extends Session{
-    public FreeSession(Long id, Course course, List<NsStudent> students, String title, Image coverImage, SessionStatus sessionStatus,
+    public FreeSession(Long id, Course course, List<NsStudent> students, String title, List<Image> coverImages, SessionStatus sessionStatus,
                        LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, course, students, title, coverImage, SessionFeeStatus.PAID, 0, sessionStatus, startDate, endDate, createdAt, updatedAt);
+        super(id, course, students, title, coverImages, SessionFeeStatus.PAID, 0, sessionStatus, startDate, endDate, createdAt, updatedAt);
     }
 }

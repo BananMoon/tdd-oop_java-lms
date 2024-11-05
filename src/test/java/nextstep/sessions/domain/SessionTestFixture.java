@@ -13,7 +13,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
     protected Course course = new Course();
     protected SessionFeeStatus feeStatus = SessionFeeStatus.FREE;
     protected String title = "TEST_SESSION_TITLE";
-    protected Image coverImage = new Image();
+    protected List<Image> coverImages = new ArrayList<>();
     protected LocalDate startDate = LocalDate.now();
     protected LocalDate endDate = LocalDate.now().plusDays(40);
     protected SessionStatus sessionStatus = SessionStatus.RECRUITING;
@@ -44,8 +44,8 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         return (T) this;
     }
 
-    public T coverImage(Image coverImage) {
-        this.coverImage = coverImage;
+    public T coverImages(List<Image> coverImages) {
+        this.coverImages = coverImages;
         return (T) this;
     }
 
@@ -81,7 +81,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
 
     public static class Free extends SessionTestFixture<Free> {
         public FreeSession build() {
-            return new FreeSession(this.id, this.course, this.students, this.title, this.coverImage, this.sessionStatus,
+            return new FreeSession(this.id, this.course, this.students, this.title, this.coverImages, this.sessionStatus,
                     this.startDate, this.endDate, this.createdAt, this.updatedAt);
         }
     }
@@ -102,7 +102,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         }
 
         public PaidSession build() {
-            return new PaidSession(id, course, students, title, fee, coverImage, maxStudent, sessionStatus,
+            return new PaidSession(id, course, students, title, fee, coverImages, maxStudent, sessionStatus,
                     startDate, endDate, createdAt, null);
         }
     }
