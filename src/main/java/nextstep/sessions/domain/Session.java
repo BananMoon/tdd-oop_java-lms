@@ -17,13 +17,14 @@ public abstract class Session extends BaseEntity {
     protected Integer fee;
     protected LocalDate startDate;
     protected LocalDate endDate;
-    protected SessionStatus sessionStatus;
+    protected SessionProgressStatus sessionStatus;
+    protected SessionRecruitmentStatus sessionRecruitmentStatus;
 
     protected List<NsStudent> students;
 
     protected Session(Long id, Course course, List<NsStudent> students, String title, List<Image> coverImages, SessionFeeStatus feeStatus,
-                      Integer fee, SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate,
-                      LocalDateTime createdAt, LocalDateTime updatedAt) {
+                      Integer fee, SessionProgressStatus sessionStatus, SessionRecruitmentStatus sessionRecruitmentStatus,
+                      LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.course = course;
         this.students = students;
@@ -32,6 +33,7 @@ public abstract class Session extends BaseEntity {
         this.fee = fee;
         this.feeStatus = feeStatus;
         this.sessionStatus = sessionStatus;
+        this.sessionRecruitmentStatus = sessionRecruitmentStatus;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -46,5 +48,6 @@ public abstract class Session extends BaseEntity {
 
     private void validateSession() {
         this.sessionStatus.checkRegisterAvailable();
+        this.sessionRecruitmentStatus.checkRegisterAvailable();
     }
 }

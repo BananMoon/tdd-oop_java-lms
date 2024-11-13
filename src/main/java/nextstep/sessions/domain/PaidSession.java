@@ -13,8 +13,11 @@ import java.util.List;
 public class PaidSession extends Session {
     protected Integer maxStudent;
 
-    public PaidSession(Long id, Course course, List<NsStudent> students, String title, Integer fee, List<Image> coverImages, Integer maxStudent, SessionStatus sessionStatus, LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, course, students, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus, startDate, endDate, createdAt, updatedAt);
+    public PaidSession(Long id, Course course, List<NsStudent> students, String title, Integer fee, List<Image> coverImages,
+                       Integer maxStudent, SessionProgressStatus sessionStatus2, SessionRecruitmentStatus sessionRecruitmentStatus,
+                       LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, course, students, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus2, sessionRecruitmentStatus,
+                startDate, endDate, createdAt, updatedAt);
         this.maxStudent = maxStudent;
     }
 

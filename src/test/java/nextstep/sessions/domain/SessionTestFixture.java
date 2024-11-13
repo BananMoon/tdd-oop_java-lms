@@ -11,12 +11,12 @@ import java.util.List;
 public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
     protected Long id = 0L;
     protected Course course = new Course();
-    protected SessionFeeStatus feeStatus = SessionFeeStatus.FREE;
     protected String title = "TEST_SESSION_TITLE";
     protected List<Image> coverImages = new ArrayList<>();
     protected LocalDate startDate = LocalDate.now();
     protected LocalDate endDate = LocalDate.now().plusDays(40);
-    protected SessionStatus sessionStatus = SessionStatus.RECRUITING;
+    protected SessionProgressStatus sessionStatus = SessionProgressStatus.ONGOING;
+    protected SessionRecruitmentStatus sessionRecruitmentStatus = SessionRecruitmentStatus.OPEN;
     protected List<NsStudent> students = new ArrayList<>();
     protected LocalDateTime createdAt = LocalDateTime.now();
     protected LocalDateTime updatedAt = LocalDateTime.now().plusHours(1);
@@ -64,11 +64,14 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         return (T) this;
     }
 
-    public T sessionStatus(SessionStatus sessionStatus) {
+    public T sessionStatus(SessionProgressStatus sessionStatus) {
         this.sessionStatus = sessionStatus;
         return (T) this;
     }
-
+    public T sessionRecruitmentStatus(SessionRecruitmentStatus sessionRecruitmentStatus) {
+        this.sessionRecruitmentStatus = sessionRecruitmentStatus;
+        return (T) this;
+    }
     public T createdAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return (T) this;
@@ -81,8 +84,8 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
 
     public static class Free extends SessionTestFixture<Free> {
         public FreeSession build() {
-            return new FreeSession(this.id, this.course, this.students, this.title, this.coverImages, this.sessionStatus,
-                    this.startDate, this.endDate, this.createdAt, this.updatedAt);
+            return new FreeSession(this.id, this.course, this.students, this.title, this.coverImages,
+                    this.sessionStatus, this.sessionRecruitmentStatus, this.startDate, this.endDate, this.createdAt, this.updatedAt);
         }
     }
 
@@ -103,7 +106,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
 
         public PaidSession build() {
             return new PaidSession(id, course, students, title, fee, coverImages, maxStudent, sessionStatus,
-                    startDate, endDate, createdAt, null);
+                    sessionRecruitmentStatus, startDate, endDate, createdAt, null);
         }
     }
 }
