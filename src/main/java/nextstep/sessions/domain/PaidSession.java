@@ -3,7 +3,7 @@ package nextstep.sessions.domain;
 import nextstep.courses.domain.Course;
 import nextstep.payments.domain.Payment;
 import nextstep.sessions.CannotRegisterException;
-import nextstep.users.domain.NsStudent;
+import nextstep.studentsessions.domain.StudentSession;
 import nextstep.users.domain.NsUser;
 
 import java.time.LocalDate;
@@ -13,10 +13,10 @@ import java.util.List;
 public class PaidSession extends Session {
     protected Integer maxStudent;
 
-    public PaidSession(Long id, Course course, List<NsStudent> students, String title, Integer fee, List<Image> coverImages,
+    public PaidSession(Long id, Course course, List<StudentSession> studentSessions, String title, Integer fee, List<Image> coverImages,
                        Integer maxStudent, SessionProgressStatus sessionStatus2, SessionRecruitmentStatus sessionRecruitmentStatus,
                        LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, course, students, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus2, sessionRecruitmentStatus,
+        super(id, course, studentSessions, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus2, sessionRecruitmentStatus,
                 startDate, endDate, createdAt, updatedAt);
         this.maxStudent = maxStudent;
     }
@@ -40,7 +40,7 @@ public class PaidSession extends Session {
     }
 
     private void validateSessionFull() {
-        if (this.maxStudent == this.students.size()) {
+        if (this.maxStudent <= this.studentSessions.size()) {
             throw new CannotRegisterException("유료 강의는 강의 최대 수강 인원을 초과할 수 없습니다.");
         }
     }

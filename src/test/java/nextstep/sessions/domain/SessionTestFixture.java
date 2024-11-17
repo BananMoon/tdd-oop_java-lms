@@ -1,6 +1,8 @@
 package nextstep.sessions.domain;
 
 import nextstep.courses.domain.Course;
+import nextstep.studentsessions.domain.StudentSession;
+import nextstep.users.NsUserTestFixture;
 import nextstep.users.domain.NsStudent;
 
 import java.time.LocalDate;
@@ -17,8 +19,10 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
     protected LocalDate endDate = LocalDate.now().plusDays(40);
     protected SessionProgressStatus sessionStatus = SessionProgressStatus.ONGOING;
     protected SessionRecruitmentStatus sessionRecruitmentStatus = SessionRecruitmentStatus.OPEN;
-    protected List<NsStudent> students = new ArrayList<>();
     protected LocalDateTime createdAt = LocalDateTime.now();
+    protected List<StudentSession> studentSessions = new ArrayList<>() {{
+        add(new StudentSession(null, new NsStudent(new NsUserTestFixture().createdAt(LocalDateTime.now()).build(), LocalDateTime.now()), LocalDateTime.now()));
+    }};
     protected LocalDateTime updatedAt = LocalDateTime.now().plusHours(1);
 
     public static Paid paidSessionBuilder() {
@@ -49,8 +53,8 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         return (T) this;
     }
 
-    public T students(List<NsStudent> students) {
-        this.students = students;
+    public T studentSessions(StudentSession studentSession) {
+        this.studentSessions.add(studentSession);
         return (T) this;
     }
 
@@ -68,10 +72,12 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         this.sessionStatus = sessionStatus;
         return (T) this;
     }
+
     public T sessionRecruitmentStatus(SessionRecruitmentStatus sessionRecruitmentStatus) {
         this.sessionRecruitmentStatus = sessionRecruitmentStatus;
         return (T) this;
     }
+
     public T createdAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return (T) this;
@@ -84,7 +90,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
 
     public static class Free extends SessionTestFixture<Free> {
         public FreeSession build() {
-            return new FreeSession(this.id, this.course, this.students, this.title, this.coverImages,
+            return new FreeSession(this.id, this.course, this.studentSessions, this.title, this.coverImages,
                     this.sessionStatus, this.sessionRecruitmentStatus, this.startDate, this.endDate, this.createdAt, this.updatedAt);
         }
     }
@@ -105,7 +111,7 @@ public abstract class SessionTestFixture<T extends SessionTestFixture<T>> {
         }
 
         public PaidSession build() {
-            return new PaidSession(id, course, students, title, fee, coverImages, maxStudent, sessionStatus,
+            return new PaidSession(id, course, studentSessions, title, fee, coverImages, maxStudent, sessionStatus,
                     sessionRecruitmentStatus, startDate, endDate, createdAt, null);
         }
     }
