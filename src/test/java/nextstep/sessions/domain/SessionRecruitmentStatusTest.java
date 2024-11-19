@@ -11,7 +11,7 @@ class SessionRecruitmentStatusTest {
     @DisplayName("강의 모집 상태가 모집 중이 않을 때 수강신청할 경우 CannotRegisterException 예외를 발생시킨다.")
     @Test
     void throw_CannotRegisterException_when_sessionRegistration_is_unavailable() {
-        SessionRecruitmentStatus given = SessionRecruitmentStatus.COSED;
+        SessionRecruitmentStatus given = SessionRecruitmentStatus.CLOSED;
 
         assertThatThrownBy(given::checkRegisterAvailable)
                 .isInstanceOf(CannotRegisterException.class)

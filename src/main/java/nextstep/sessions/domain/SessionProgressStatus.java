@@ -6,20 +6,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum SessionProgressStatus {
-    PREPARING(List.of("PREPARING"), Boolean.FALSE),
-    ONGOING(List.of("RECRUITING", "ONGOING"), Boolean.TRUE),
-    ENDED(List.of("ENDED"), Boolean.FALSE);
+    PREPARING(List.of("PREPARING"), false),
+    ONGOING(List.of("RECRUITING", "ONGOING"), true),
+    ENDED(List.of("ENDED"), false);
 
     private final List<String> dbDatas;
-    private final Boolean registerAvailable;
+    private final boolean registerAvailable;
 
-    SessionProgressStatus(List<String> dbDatas, Boolean registerAvailable) {
+    SessionProgressStatus(List<String> dbDatas, boolean registerAvailable) {
         this.dbDatas = dbDatas;
         this.registerAvailable = registerAvailable;
     }
 
     public void checkRegisterAvailable() {
-        if (Boolean.FALSE.equals(this.registerAvailable)) {
+        if (!this.registerAvailable) {
             throw new CannotRegisterException("강의 진행 상태가 '진행 중'이 아닐 때 강의 수강 신청이 불가합니다.");
         }
     }
