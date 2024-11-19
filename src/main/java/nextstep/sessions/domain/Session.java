@@ -41,9 +41,9 @@ public abstract class Session extends BaseEntity {
     }
 
     public void registerSession(NsUser loginUser, LocalDateTime createdAt) {
-        this.validateSession();
+        validateSession();
 
-        this.addStudentSession(
+        addStudentSession(
                 new NsStudent(loginUser, createdAt),
                 RegistrationApprovalStatus.PENDING,
                 createdAt

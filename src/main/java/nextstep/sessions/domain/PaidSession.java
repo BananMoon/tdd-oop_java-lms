@@ -22,10 +22,10 @@ public class PaidSession extends Session {
     }
 
     public void registerSession(NsUser loginUser, Payment payment, LocalDateTime createdAt) {
-        this.validateUser(loginUser, payment.getNsUserId());
-        this.validatePaidSession(payment);
+        validateUser(loginUser, payment.getNsUserId());
+        validatePaidSession(payment);
 
-        this.registerSession(loginUser, createdAt);
+        registerSession(loginUser, createdAt);
     }
 
     private void validateUser(NsUser loginUser, Long paidUserId) {
@@ -35,7 +35,7 @@ public class PaidSession extends Session {
     }
 
     private void validatePaidSession(Payment payment) {
-        this.validateSessionFull();
+        validateSessionFull();
         payment.validateSessionFee(this.fee);
     }
 
