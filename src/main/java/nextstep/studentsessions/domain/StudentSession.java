@@ -17,7 +17,11 @@ public class StudentSession extends BaseEntity {
     }
 
     public StudentSession(Session session, NsStudent student, RegistrationApprovalStatus registrationApprovalStatus, LocalDateTime createdAt) {
-        super(0L, createdAt);
+        this(session, student, registrationApprovalStatus, createdAt, null);
+    }
+
+    public StudentSession(Session session, NsStudent student, RegistrationApprovalStatus registrationApprovalStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(0L, createdAt, updatedAt);
         this.session = session;
         this.student = student;
         this.registrationApprovalStatus = registrationApprovalStatus;

@@ -16,14 +16,12 @@ public class Image extends BaseEntity {
     private int widthInPixels;
     private int heightInPixels;
 
-    public Image() {
-    }
     public Image(int sizeInKB, String type, int widthInPixels, int heightInPixels, LocalDateTime createdAt) {
-        this(0L, sizeInKB, type, widthInPixels, heightInPixels, createdAt);
+        this(0L, sizeInKB, type, widthInPixels, heightInPixels, createdAt, null);
     }
 
-    public Image(Long id, int sizeInKB, String type, int widthInPixels, int heightInPixels, LocalDateTime createdAt) {
-        super(id, createdAt);
+    public Image(Long id, int sizeInKB, String type, int widthInPixels, int heightInPixels, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
         validateImageSize(sizeInKB);
         validateWidthHeight(widthInPixels, heightInPixels);
         this.type = ImageType.of(type);

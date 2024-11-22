@@ -14,9 +14,9 @@ public class PaidSession extends Session {
     protected Integer maxStudent;
 
     public PaidSession(Long id, Course course, List<StudentSession> studentSessions, String title, Integer fee, List<Image> coverImages,
-                       Integer maxStudent, SessionProgressStatus sessionStatus2, SessionRecruitmentStatus sessionRecruitmentStatus,
+                       Integer maxStudent, SessionProgressStatus sessionStatus, SessionRecruitmentStatus sessionRecruitmentStatus,
                        LocalDate startDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, course, studentSessions, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus2, sessionRecruitmentStatus,
+        super(id, course, studentSessions, title, coverImages, SessionFeeStatus.PAID, fee, sessionStatus, sessionRecruitmentStatus,
                 startDate, endDate, createdAt, updatedAt);
         this.maxStudent = maxStudent;
     }

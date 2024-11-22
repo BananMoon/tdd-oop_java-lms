@@ -77,4 +77,10 @@ public abstract class Session extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void setRelatedEntities(Course course, List<Image> coverImages, List<StudentSession> studentSessions) {
+        this.course = course;
+        this.studentSessions = studentSessions;
+        this.coverImages = coverImages;
+    }
 }
